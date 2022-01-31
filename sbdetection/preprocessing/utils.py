@@ -1,17 +1,13 @@
 import re
-import pandas as pd
 from typing import List, Dict, Union
 
 
-def word_tokenize(sentence):
+def word_tokenize(sentence:str) -> List[str]:
     """
     Split sentences into tokens separated by white space
     """
     return list(filter(lambda x: x not in [None, ' ', ''],
                        re.split(r' ', sentence)))
-
-
-# Feature extraction
 
 
 def contains_uppercase(token: Union[str, float]) -> bool:

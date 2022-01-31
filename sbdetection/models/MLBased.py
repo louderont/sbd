@@ -1,19 +1,21 @@
 import os
-from typing import Union
-import pickle
 import pandas as pd
+from typing import Dict, Union, Any
+import pickle
 import pathlib
 
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
-from sklearn.metrics import f1_score
 from xgboost import XGBClassifier
 
 from sbdetection.preprocessing.preprocessor import binary_target_to_sentences
 
-def get_estimator(estimator, parameters):
-    """Returns a sklearn estimator object to be fitted"""
+def get_estimator(estimator:str, parameters:Dict[str, Any]) \
+    -> Union[RandomForestClassifier, LogisticRegression, SVC, XGBClassifier]:
+    """
+    Returns a sklearn estimator object to be fitted
+    """
     random_state = 1
     if estimator == "SVC":
         if parameters is not None:
@@ -41,7 +43,7 @@ def get_estimator(estimator, parameters):
 
 
 class Model:
-    model: Union[XGBClassifier, LogisticRegression, RandomForestClassifier, SVC] = None
+    model: Union[RandomForestClassifier, LogisticRegression, SVC, XGBClassifier] = None
     model_name: str = None
     model_path: str = None
     
