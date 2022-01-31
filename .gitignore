@@ -1,8 +1,6 @@
 .vscode
 .pytest_cache
+.DS_Store
 *.egg-info
 
 **/__pycache__
-
-**/data/input/*
-**/data/output/*
