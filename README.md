@@ -2,7 +2,7 @@
 
 ## Installation
 
-At first, create a dedicated environement and activate it.
+At first, create a dedicated environment and activate it.
 ```
 conda create -n py38_sbd python=3.8
 conda activate py38_sbd
@@ -56,7 +56,7 @@ The difficulty of the task within this scope is to distinguish a sentence ending
 The task highly depends on the chosen train set and on the selected metric and test sets to evaluate the model.
 
 
-To cover the scope of cleaned and formal sentence tokenization, the chosen text samples are extracted from novels and articles. As the first approach is chosen supervised, the selected train and test sets are extracts from already existing and tagged (sentence tokenized) corpus that are easily accessible usign nltk and provide important volumes of data. 
+To cover the scope of cleaned and formal sentence tokenization, the chosen text samples are extracted from novels and articles. As the first approach is chosen supervised, the selected train and test sets are extracts from already existing and tagged (sentence tokenized) corpus that are easily accessible using nltk and provide important volumes of data. 
 
 
 To evaluate the robustness of the model on texts whoose sources are different from the train set's and with different rate of sentence end among full stop punctuations, I choose to use 3 different corpus.
@@ -78,8 +78,8 @@ A descriptive analysis of the datasets is provided in the next sections.
 
 To provide an element of comparison, a basic rule based model is at first implemented using RegEx (Regular Expression).
 
-The proposed approach is a token-classification model: the idea is to cut the text into word tokens and then to associate a binary target to each token (1: sentence end token, 0: not an end sentence token) to train a supervised classification model. I choose this approach as it is a straightforward way to address the issue that allows to perform feature extraction from the tokens and then applying common and already implemented classification estimators using scikit-learn.
-This token approach is also used in papers obtaining high score on the targetted types of text (Treebank or Brown corpus):
+The proposed approach is a token-classification model: the idea is to cut the text into word tokens and then to associate a binary target to each token (1: sentence end token, 0: not an end sentence token) to train a supervised classification model. I choose this approach as it is a straightforward way to address the issue that allows to perform feature extraction from the tokens and then to apply common and already implemented classification estimators using scikit-learn.
+This token approach is also used in papers obtaining high scores on the targetted types of text (Treebank or Brown corpus) such as:
 Sentence Boundary Detection Using a MaxEnt Classifier
 Nishant Agarwal, K. Ford, M. Shneider, 2005
 
@@ -93,7 +93,7 @@ Punctuation is thus included in the tokens to go for a quicker and less misleadi
 | Corpus source | Brown corpus | Treebank corpus (WSJ) | Gutenberg corpus |
 | --- | --- | --- | --- |
 | Nb of sentences | 3000 | 3000 | 30 000 |
-| Avg nb of tokens per sentences | 73 | 135 | 136 |
+| Avg nb of tokens per sentence | 73 | 135 | 136 |
 | Part of ending tokens among all tokens | 7.5% | 4.4% | 3.9% |
 | Part of ending tokens among tokens with full stops | 0.98 | 0.65 | 0.88 |
 
@@ -105,16 +105,15 @@ The size of the sample train set is taken quite large (30 000 sentences) to prov
 
 
 The obtained datasets are very imbalanced: the class of tokens not corresponding to a sentence end reprensents > 90% of tokens, which is consistent.
-It has therefore been considered to undersample the majority class corresponding to non ending tokens by only considering tokens that contains a full stop (., ?, !) but it degraded the chosen metric on the test set.
+It has therefore been considered to undersample the majority class corresponding to non ending tokens by only considering tokens that contain a full stop (., ?, !) but it degraded the chosen metric on the test set.
 
 ### Metric
 
 The considered problem is a binary supervised classification with an imbalanced repartition between the classes. Class 1(True) represents the end sentence tokens.
 
-
 As a dummy model would have an accuracy >90% in this imbalanced context, hence the relevant metrics are the precision (part of elements predicted True that are correctly True) and the recall (part of real True elements that are detected by the model) for the minority class (class 1).
 
-Therefore, the chosen metric for the model performance evaluation is the **F1 score** for the minority class (class 1) that equivalently takes into account precision and recall (F1 score = 2(precision*recall)/). One could also choose to favor the recall or the precision score depending on the problem constraints.
+Therefore, the chosen metric for the model performance evaluation is the **F1 score** for the minority class (class 1) that equivalently takes into account precision and recall (F1 score = 2(precision*recall)/(precision+recall)). One could also choose to favor the recall or the precision score depending on the problem constraints.
 
 The baseline results for the Class 1 on the different sets are:
 
@@ -164,9 +163,11 @@ The obtained F1 score are higher than the ones of the baseline on both test sets
 
 To increase the scope to deal with more heterogeneous types of texts but also to develop a multi latin language approach, theses perspectives could be considered:
 
-1. Implementing a multi-stage classifier approach such as the [Punkt](https://aclanthology.org/J06-4003.pdf) algorithm: Unsupervised Multilingual Sentence Boundary Detection, Tibor Kiss, Jan Strunk, 2006. The approach uses at first likehood ratios to define whether a token is likely to be an abbreviation. Then, for every token with a final period, based on the context, it identifies whether a token is a sentence end.
+1. Implementing an unsupervised multi-stage classifier approach such as the [Punkt](https://aclanthology.org/J06-4003.pdf) algorithm: Unsupervised Multilingual Sentence Boundary Detection, Tibor Kiss, Jan Strunk, 2006. The approach uses at first likehood ratios to define whether a token is likely to be an abbreviation. Then, for every token with a final period, based on the context, it identifies whether a token is a sentence end.
 
-2. Neural Network approach such as the [SATZ architecture](https://aclanthology.org/J97-2002.pdf): Adaptive Multilingual Sentence Boundary Disambiguation, David D., Marti A. Hearst. Thanks to POS frequency for the corpus, token vector and context is fed to a fully-connected neural network predicting end of sentence tokens. Otherwise, other architecture such as LSTM could be considered.  
+2. A Neural Network approach such as the [SATZ architecture](https://aclanthology.org/J97-2002.pdf): Adaptive Multilingual Sentence Boundary Disambiguation, David D., Marti A. Hearst. Thanks to POS frequency for the corpus, token vector and context is fed to a fully-connected neural network predicting end of sentence tokens. 
+
+Otherwise, other architecture such as LSTM could be considered.  
 
 ## Bonus
 
@@ -212,5 +213,5 @@ The scripts can be found in the ./tests folder.
 
 ## Conventions
 
-typing
+typing\
 pep8
